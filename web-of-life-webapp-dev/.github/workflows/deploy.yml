@@ -1,4 +1,4 @@
-name: Dev WEB Deployment
+name: QA WEB Deployment
 on: 
   - push
   - workflow_dispatch
@@ -13,15 +13,15 @@ jobs:
               webhook-type: incoming-webhook
               payload: |
                 channel: email-testing
-                text: "*Web of Life Webapp Dev* Deployment started, Check in Vercel"
+                text: "*Web of Life Webapp Qa* Deployment started, Check in Vercel"
 
           - name: Trigger Vercel Deployment
             run: |
-              if [ -n "${{ secrets.DEV_VERCEL_DEPLOY_HOOK_URL }}" ]; then
-                echo "Triggering dev deployment..."
-                curl -X POST "${{ secrets.DEV_VERCEL_DEPLOY_HOOK_URL }}"
+              if [ -n "${{ secrets.QA_VERCEL_DEPLOY_HOOK_URL }}" ]; then
+                echo "Triggering qa deployment..."
+                curl -X POST "${{ secrets.QA_VERCEL_DEPLOY_HOOK_URL }}"
                 echo "Deployment trigger sent successfully!"
               else
-                echo "Error: DEV_VERCEL_DEPLOY_HOOK_URL secret not configured"
+                echo "Error: QA_VERCEL_DEPLOY_HOOK_URL secret not configured"
                 exit 1
               fi
