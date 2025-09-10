@@ -1,0 +1,27 @@
+name: Dev WEB Deployment
+on: 
+  - push
+  - workflow_dispatch
+jobs:
+    notify:
+        runs-on: ubuntu-latest
+        steps:
+          - name: send notification
+            uses: slackapi/slack-github-action@v2.1.0
+            with:
+              webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+              webhook-type: incoming-webhook
+              payload: |
+                channel: deployments
+                text: "*Web of Life Webapp Dev* Deployment started, Check in Vercel"
+
+          - name: Trigger Vercel Deployment
+            run: |
+              if [ -n "${{ secrets.DEV_VERCEL_DEPLOY_HOOK_URL }}" ]; then
+                echo "Triggering dev deployment..."
+                curl -X POST "${{ secrets.DEV_VERCEL_DEPLOY_HOOK_URL }}"
+                echo "Deployment trigger sent successfully!"
+              else
+                echo "Error: DEV_VERCEL_DEPLOY_HOOK_URL secret not configured"
+                exit 1
+              fi
