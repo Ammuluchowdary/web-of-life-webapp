@@ -12,7 +12,7 @@ jobs:
               webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
               webhook-type: incoming-webhook
               payload: |
-                channel: deployments
+                channel: email-testing
                 text: "*Web of Life Webapp Dev* Deployment started, Check in Vercel"
 
           - name: Trigger Vercel Deployment
